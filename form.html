@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="formcss.css">
+<body>
+    <div id="form">
+        <input type="text" v-model="name" placeholder="Nama">
+        <input type="number" v-model="age" placeholder="Umur">
+        <input type="text" v-model="address" placeholder="Alamat">
+        <label for="male"><input type="radio" id="male" v-model="gender" value="Laki-laki">Laki-laki</label>
+        <label for="female"><input type="radio" id="female" v-model="gender" value="Perempuan">Perempuan</label>
+        <p>Halo! Nama saya {{ name }}, umur saya {{ age }} tahun, saya seorang {{ gender }} dan tinggal di {{ address }}</p>
+    </div>
+    <div id="component">
+        <component hobi="Bermain Game"></component>
+        <component hobi="Nonton Anime"></component>
+        <component hobi="Membaca Buku"></component>
+        <component hobi="Membaca komik"></component>
+        <component hobi="Membuat cerita"></component>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+<script>
+    Vue.component('component', {
+    props: ['hobi'],
+    template: '<div class="component-card">Hobi saya adalah {{ hobi }}</div>'
+    })
+    new Vue({
+        el: '#form',
+        data: {
+            name: '',
+            age: '',
+            address: '',
+            gender: ''
+        }
+    })
+    new Vue({
+        el: '#component',
+    })
+</script>
+</body>
+</html>
