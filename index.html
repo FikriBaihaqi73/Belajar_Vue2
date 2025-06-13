@@ -7,20 +7,25 @@
 </head>
 <link rel="stylesheet" href="formcss.css">
 <body>
-    <div id="form">
-        <input type="text" v-model="name" placeholder="Nama">
-        <input type="number" v-model="age" placeholder="Umur">
-        <input type="text" v-model="address" placeholder="Alamat">
-        <label for="male"><input type="radio" id="male" v-model="gender" value="Laki-laki">Laki-laki</label>
-        <label for="female"><input type="radio" id="female" v-model="gender" value="Perempuan">Perempuan</label>
-        <p>Halo! Nama saya {{ name }}, umur saya {{ age }} tahun, saya seorang {{ gender }} dan tinggal di {{ address }}</p>
-    </div>
-    <div id="component">
-        <component hobi="Bermain Game"></component>
-        <component hobi="Nonton Anime"></component>
-        <component hobi="Membaca Buku"></component>
-        <component hobi="Membaca komik"></component>
-        <component hobi="Membuat cerita"></component>
+    <div id="app">
+        <label>Judul Form dari parent</label>
+        <input type="text" v-model="judulFormulir" placeholder="Masukkan judul formulir">
+        <form-profile :title="judulFormulir"
+            @form-submitted="saveData">
+        </form-profile>
+        <div style="margin-top: 20px;">
+            <button @click="displayParentData" v-if="!showDataDisplay">Tampilkan dari parent</button>
+            <button @click="hideParentData" v-if="showDataDisplay">Sembunyikan dari parent</button>
+        </div>
+        <div id="hasil-data" style="margin-top: 20px;" v-if="showDataDisplay">
+            <h3>Hasil Data Lengkap</h3>
+            <p v-if="parentData">
+                Halo, nama saya {{ nama }} ({{ umur }} tahun), tinggal di {{ alamat }}.
+            </p>
+            <p v-else>
+                Belum ada data yang disimpan.
+            </p>
+        </div>
     </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
 <script src="formscript.js"></script>
