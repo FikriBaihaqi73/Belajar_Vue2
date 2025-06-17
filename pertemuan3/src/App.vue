@@ -1,50 +1,51 @@
 <template>
   <div id="app">
-    <h1>Kasir Mini</h1>
-    
-    <div class="input-section">
-      <label for="namaBarang">Nama Barang:</label>
-      <input type="text" v-model="namaBarang" placeholder="Masukkan nama barang" id="namaBarang">
-    </div>
+    <div v-if="appContentVisible">
+      <h1>Kasir Mini</h1>
+      
+      <div class="input-section">
+        <label for="namaBarang">Nama Barang:</label>
+        <input type="text" v-model="namaBarang" placeholder="Masukkan nama barang" id="namaBarang">
+      </div>
 
-    <div class="input-section">
-      <label for="jumlah">Jumlah Barang:</label>
-      <input type="number" v-model.number="jumlah" placeholder="Masukkan jumlah barang" id="jumlah">
-    </div>
+      <div class="input-section">
+        <label for="jumlah">Jumlah Barang:</label>
+        <input type="number" v-model.number="jumlah" placeholder="Masukkan jumlah barang" id="jumlah">
+      </div>
 
     <div class="input-section">
       <label for="hargaSatuan">Harga Satuan:</label>
       <input type="number" v-model.number="hargaSatuan" placeholder="Masukkan harga satuan" id="hargaSatuan">
     </div>
 
-    <div class="input-section">
-      <button @click="tambahBarang">Tambah Barang</button>
+      <div class="input-section">
+        <button @click="tambahBarang">Tambah Barang</button>
+      </div>
+      
+      <div v-if="items.length > 0" id="table-section">
+        <h2>Daftar Belanjaan</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nama Barang</th>
+              <th>Jumlah Barang</th>
+              <th>Harga Satuan</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in items" :key="index">
+              <td>{{ item.namaBarang }}</td>
+              <td>{{ item.jumlah }}</td>
+              <td>{{ formatNumber(item.hargaSatuan) }}</td>
+              <td>{{ formatNumber(item.subtotal) }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Total Harga: {{ formatNumber(totalHarga) }}</p>
+      </div>
     </div>
     
-    <div v-if="items.length > 0" id="table-section">
-      <h2>Daftar Belanjaan</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Nama Barang</th>
-            <th>Jumlah Barang</th>
-            <th>Harga Satuan</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in items" :key="index">
-            <td>{{ item.namaBarang }}</td>
-            <td>{{ item.jumlah }}</td>
-            <td>{{ formatNumber(item.hargaSatuan) }}</td>
-            <td>{{ formatNumber(item.subtotal) }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>Total Harga: {{ formatNumber(totalHarga) }}</p>
-    </div>
-    
-    <!-- Custom Modal -->
     <div v-if="showModal" class="modal-overlay">
       <div class="modal-content">
         <h2>Pesan Sistem</h2>
@@ -67,7 +68,8 @@ export default {
       items: [],
       totalHarga: 0,
       showModal: false,
-      modalMessage: ''
+      modalMessage: '',
+      appContentVisible: false
     }
   },
   created() {
@@ -81,6 +83,7 @@ export default {
     closeModal() {
       this.showModal = false;
       this.modalMessage = '';
+      this.appContentVisible = true;
     },
     formatNumber(value) {
       return new Intl.NumberFormat('id-ID').format(value);
